@@ -1,5 +1,26 @@
 <template>
-  <div class="hello">
+  <fd-table :headers="['firstName', 'lastName', 'building']" :items="items">
+    <template #row="{ item }">
+      <fd-table-row>
+        <template #firstName>
+          <fd-table-cell>
+            {{ item.firstName }}
+          </fd-table-cell>
+        </template>
+        <template #lastName>
+          <fd-table-cell>
+            {{ item.lastName }}
+          </fd-table-cell>
+        </template>
+        <template #building>
+          <fd-table-cell>
+            {{ item.building }}
+          </fd-table-cell>
+        </template>
+      </fd-table-row>
+    </template>
+  </fd-table>
+  <!-- <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
@@ -27,16 +48,27 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
+
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  data() {
+    return {
+      items: [
+        { firstName: "Chris", lastName: "Kienle", building: "WFD02" },
+        { firstName: "Andi", lastName: "Kienle", building: "WFD03" },
+        { firstName: "Sven", lastName: "Bacia", building: "WFD02" },
+        { firstName: "Artur", lastName: "Raess", building: "WFD02" },
+      ],
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
