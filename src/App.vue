@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <shell-bar class="fixed top-0 w-screen" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import ShellBar from "@/components/ShellBar";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    ShellBar,
   },
 };
 </script>
