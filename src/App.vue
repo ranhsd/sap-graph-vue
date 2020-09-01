@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <shell-bar class="fixed top-0 w-screen" />
-    <router-view />
+    <shell-bar class="sticky top-0 left-0 right-0" />
+    <fd-container fluid class="h-full pb-16">
+        <router-view />
+    </fd-container>    
   </div>
 </template>
 
@@ -24,6 +26,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 </style>

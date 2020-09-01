@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "fiori-fundamentals": "^1.7.6",
     "fundamental-vue": "^0.18.3",
+    "moment": "^2.27.0",
     "vue": "^2.6.11",
     "vue-router": "^3.4.3"
   },

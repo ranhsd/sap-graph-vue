@@ -32,3 +32,23 @@ export async function getSalesOrder(id){
   const { data } = await client.get(`beta/SalesOrders/${id}`);
   return data;
 }
+
+export async function getCustomers(){
+  const { data } = await client.get("beta/Customers");
+  return data;
+}
+
+export async function getCustomer(id){
+  const { data } = await client.get(`beta/Customers/${id}`);
+  return data;
+}
+
+export async function getCustomerOrders(customerId){
+  debugger;
+  // TODO: use $filter with customerId when it will be added to the API
+  const { data } = await client.get("beta/CustomerOrders");
+  return {
+    items: data.value,
+    next: data["@odata.nextLink"]
+  };
+}

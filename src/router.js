@@ -12,8 +12,8 @@ export default new Router({
       component: () => import("@/pages/Home.vue")
     },
     {
-      path: "/sales-order/:id",
-      name: "salesorder",
+      path: "/orders/:id",
+      name: "orders",
       props: true,
       component: () => import("@/pages/SalesOrderPage.vue")
     },    

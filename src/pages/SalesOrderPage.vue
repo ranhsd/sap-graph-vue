@@ -1,48 +1,61 @@
 <template>
-  <fd-container centered>
-    <fd-panel :title="salesOrderTitle">
+  <fd-container centered class="h-full">
+    <div class="h-full flex items-center" v-if="loading">
+      <fd-spinner />
+    </div>
+
+    <fd-panel
+      v-if="customer"
+      :title="salesOrderTitle"
+      class="mt-4 overflow-y-auto h-full"
+    >
       <fd-tabs v-model="selectedTab">
-        <fd-tab-item label="Items" name="items">
-          <fd-table
-            v-if="salesOrder && salesOrder.items"
-            :headers="orderItemsHeaders"
-            :items="salesOrder.items"
-          >
+        <fd-tab-item label="Orders" name="orders">
+          <fd-table :headers="orderItemsHeaders" :items="orders">
             <template #row="{ toggle, item }">
               <fd-table-row @click="toggle">
-                <template #itemId>
+                <template #orderId>
                   <fd-table-cell>
                     <router-link
                       :to="{
-                        name: 'salesorder',
+                        name: 'order',
                         params: {
                           id: item.id,
                         },
                       }"
-                      >{{ item.id }}</router-link
+                      >{{ item.displayId }}</router-link
                     >
                   </fd-table-cell>
                 </template>
-                <template #productId>
+                <template #type>
                   <fd-table-cell>
-                    {{ item.productID }}
+                    {{ item.type.name }}
                   </fd-table-cell>
                 </template>
-                <template #productDesc>
+                <template #processingStatus>
                   <fd-table-cell>
-                    {{ item.productDescription }}
-                  </fd-table-cell>
-                </template>
-                <template #quantity>
-                  <fd-table-cell>
-                    {{ item.quantity }}
+                    <fd-status
+                      :statusIcon="statusIcons[item.processingStatus.code]"
+                      >{{ item.processingStatus.name }}</fd-status
+                    >
                   </fd-table-cell>
                 </template>
                 <template #amount>
                   <fd-table-cell>
-                    {{ salesOrder.currency.code }} {{ item.netAmount }} 
+                    {{ `${item.currency.code} ${item.netAmount}` }}
                   </fd-table-cell>
                 </template>
+
+                <template #pricedExt>
+                  <fd-table-cell>
+                    <fd-checkbox disabled :value="item.isExternallyPriced"></fd-checkbox>
+                  </fd-table-cell>
+                </template>
+                <template #fulDate>
+                  <fd-table-cell>
+                    {{ formatDate(item.requestedFulfillmentDate) }}
+                  </fd-table-cell>
+                </template>                
               </fd-table-row>
             </template>
           </fd-table>
@@ -54,7 +67,8 @@
 </template>
 
 <script>
-import { getSalesOrder } from "@/api";
+import { getSalesOrder, getCustomer, getCustomerOrders } from "@/api";
+import moment from "moment";
 
 export default {
   name: "SalesOrderPage",
@@ -69,41 +83,67 @@ export default {
   },
   data() {
     return {
-      selectedTab: "items",
-      salesOrder: null,
+      selectedTab: "orders",
+      orders: [],
+      loading: false,
+      nextPageLink: undefined,
+      statusIcons: {
+        C: "available",
+        B: "away",
+        A: "offline",
+      },
+      customer: null,
       orderItemsHeaders: [
         {
-          id: "itemId",
-          label: "Item ID",
+          id: "orderId",
+          label: "Order Number",
         },
         {
-          id: "productId",
-          label: "Product ID",
+          id: "type",
+          label: "Order Type",
         },
         {
-          id: "productDesc",
-          label: "Product Description",
-        },
-        {
-          id: "quantity",
-          label: "Quantity",
+          id: "processingStatus",
+          label: "Processing Status",
         },
         {
           id: "amount",
           label: "Net Amount",
         },
+        {
+          id: "pricedExt",
+          label: "Externally Priced (Y/N)",
+        },   
+        {
+          id: "fulDate",
+          label: "Fulfillment Date",
+        },               
       ],
     };
   },
   computed: {
     salesOrderTitle() {
-      return `Sales Document ${this.id}`;
+      return `Customer ${this.customer.displayId}`;
     },
   },
   methods: {
     async refresh() {
-      this.salesOrder = await getSalesOrder(this.id);
+      try {
+        this.loading = true;
+        this.customer = await getCustomer(this.id);
+        const { items, next } = await getCustomerOrders(
+          this.customer.displayId
+        );
+        this.orders = items;
+        this.nextPageLink = next;
+        // load customer orders
+      } finally {
+        this.loading = false;
+      }
     },
+    formatDate(date){
+      return moment(date).format("MMM Do YY");
+    }
   },
 };
 </script>
