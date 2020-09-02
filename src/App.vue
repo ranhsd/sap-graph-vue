@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <shell-bar class="sticky top-0 left-0 right-0" />
+    <shell-bar class="sticky top-0 left-0 right-0 z-50" />
     <fd-container fluid class="h-full pb-16">
         <router-view />
     </fd-container>    
@@ -30,6 +30,6 @@ export default {
 }
 html, body {
   height: 100%;
-  overflow: hidden;
+  // overflow: hidden;
 }
 </style>

@@ -1,54 +1,49 @@
 <template>
   <div class="h-full">
-    <fd-container fluid centered class="overflow-y-auto w-full h-full">
+    <fd-container fluid centered class="w-full h-full">
       <fd-container centered class="h-full mt-4">
-        <fd-table
-          selection-mode="multiple"
-          :headers="headers"
-          :items="items"
-          striped
-        >
-          <template #row="{ toggle, item }">
-            <fd-table-row @click="toggle">
-              <!-- <template #salesDocument>
-            <fd-table-cell>
-              <router-link
-                :to="{
-                  name: 'salesorder',
-                  params: {
-                      id: item.id
-                  }
-                }"
-                >{{ item.id }}</router-link
-              >
-            </fd-table-cell>
-          </template> -->
-              <!-- <template #status>
-            <fd-table-cell>
-                <fd-status :statusIcon="statusIcons[item.status.name]">{{ item.status.name }}</fd-status>              
-            </fd-table-cell>
-          </template>           -->
-              <template #customerId>
-                <fd-table-cell>
-                  <router-link
-                    :to="{
-                      name: 'orders',
-                      params: {
-                        id: item.id,
-                      },
-                    }"
-                    >{{ item.displayId }}</router-link
-                  >
-                </fd-table-cell>
-              </template>
-              <template #organization>
-                <fd-table-cell>
-                  {{ item.organization.nameDetails.formattedOrgNameLine1 }}
-                </fd-table-cell>
-              </template>
-            </fd-table-row>
+        <fd-section>
+          <template #header>
+            <fd-section-header>
+              <fd-section-title>Customers</fd-section-title>
+            </fd-section-header>
           </template>
-        </fd-table>
+          <fd-panel>
+            <fd-table
+              selection-mode="multiple"
+              :headers="headers"
+              :items="items"
+              striped
+            >
+              <template #row="{ toggle, item }">
+                <fd-table-row @click="toggle">
+                  <template #customerId>
+                    <fd-table-cell>
+                      <router-link
+                        :to="{
+                          name: 'orders',
+                          params: {
+                            id: item.id,
+                          },
+                        }"
+                        >{{ item.displayId }}</router-link
+                      >
+                    </fd-table-cell>
+                  </template>
+                  <template #organization>
+                    <fd-table-cell>
+                      {{ item.organization.nameDetails.formattedOrgNameLine1 }}
+                    </fd-table-cell>
+                  </template>
+                </fd-table-row>
+              </template>
+            </fd-table>
+            <!-- <fd-pagination
+              :displayTotal="false"
+              :initial-page.sync="initialPage"
+            /> -->
+          </fd-panel>
+        </fd-section>
       </fd-container>
     </fd-container>
   </div>
@@ -77,25 +72,8 @@ export default {
           id: "organization",
           label: "Organization",
         },
-        // {
-        //   id: "status",
-        //   label: "Status",
-        // },
-        // {
-        //   id: "customerId",
-        //   label: "Customer",
-        // },
-        // {
-        //     id: "amount",
-        //     label: "Net Amount"
-        // }
       ],
       items: [],
-      statusIcons: {
-        Completed: "available",
-        Open: "away",
-        "Not Relevant": "offline",
-      },
     };
   },
   methods: {
