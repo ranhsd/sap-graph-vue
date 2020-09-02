@@ -11,7 +11,11 @@
         </fd-section-header>
       </template>
       <fd-panel>
-        <div slot="title" class="flex items-center">
+        <fd-breadcrumb slot="title">
+          <fd-breadcrumb-item :to="{ name: 'home' }">Home</fd-breadcrumb-item>
+          <fd-breadcrumb-item disabled>Customer</fd-breadcrumb-item>
+        </fd-breadcrumb>
+        <!-- <div slot="title" class="flex items-center">
           <fd-button
             styling="light"
             compact
@@ -19,7 +23,7 @@
             @click="$router.go(-1)"
           ></fd-button>
           <div class="ml-6 mt-2">Customer Details</div>
-        </div>
+        </div> -->
 
         <fd-container fluid>
           <fd-col :span="4">
@@ -120,7 +124,7 @@
               </template>
             </fd-table-row>
           </template>
-        </fd-table>      
+        </fd-table>
       </fd-panel>
     </fd-section>
   </fd-container>

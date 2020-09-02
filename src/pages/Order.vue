@@ -10,7 +10,12 @@
         </fd-section-header>
       </template>
       <fd-panel>
-        <div slot="title" class="flex items-center">
+        <fd-breadcrumb slot="title">
+          <fd-breadcrumb-item :to="{ name: 'home' }">Home</fd-breadcrumb-item>
+          <fd-breadcrumb-item @click="$router.go(-1)">Customer</fd-breadcrumb-item>
+          <fd-breadcrumb-item>Order</fd-breadcrumb-item>
+        </fd-breadcrumb>
+        <!-- <div slot="title" class="flex items-center">
           <fd-button
             styling="light"
             compact
@@ -18,7 +23,7 @@
             @click="$router.go(-1)"
           ></fd-button>
           <div class="ml-6 mt-2">Order Details</div>
-        </div>
+        </div> -->
         <fd-container fluid>
           <fd-col
             :span="4"
@@ -47,19 +52,6 @@
               <div v-else>{{ field.text }}</div>
             </div>
           </fd-col>
-          <!-- <fd-col :span="4">
-            <div
-              class="flex flex-row items-center mb-3"
-              v-for="(field, index) in customerInfoFields"
-              :key="index"
-            >
-              <fd-icon :name="field.icon" class="mr-3" />
-              <div class="mr-3">{{ `${field.text}:` }}</div>
-              <fd-badge filled :type="field.value ? 'warning' : 'success'">{{
-                field.value ? "Yes" : "No"
-              }}</fd-badge>
-            </div>
-          </fd-col> -->
         </fd-container>
       </fd-panel>
 
@@ -103,9 +95,7 @@
       </fd-panel>
     </fd-section>
     <fd-modal name="party" ref="productModal" :title="productTitle">
-      <fd-container class="overflow-x-hidden">
-        dsdsd
-      </fd-container>
+      <fd-container class="overflow-x-hidden"> </fd-container>
     </fd-modal>
   </fd-container>
 </template>
